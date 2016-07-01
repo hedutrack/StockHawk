@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -66,7 +67,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo ();
         isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting ();
+
         setContentView (R.layout.activity_my_stocks);
+
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
         mServiceIntent = new Intent (this, StockIntentService.class);
@@ -80,11 +83,15 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }
             else
             {
-                networkToast ();
+                //networkToast ();
             }
         }
+
         RecyclerView recyclerView = (RecyclerView) findViewById (R.id.recycler_view);
         recyclerView.setLayoutManager (new LinearLayoutManager (this));
+
+        TextView emptyView = (TextView) findViewById (R.id.empty_view);
+
         getLoaderManager ().initLoader (CURSOR_LOADER_ID, null, this);
 
         mCursorAdapter = new QuoteCursorAdapter (this, null);
@@ -100,6 +107,18 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 }));
         recyclerView.setAdapter (mCursorAdapter);
 
+        /*
+        if (mCursorAdapter.getItemCount () == 0)
+        {
+            recyclerView.setVisibility (View.GONE);
+            emptyView.setVisibility (View.VISIBLE);
+        }
+        else
+        {
+            recyclerView.setVisibility (View.VISIBLE);
+            emptyView.setVisibility (View.GONE);
+        }
+*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById (R.id.fab);
         fab.attachToRecyclerView (recyclerView);
@@ -145,7 +164,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 }
                 else
                 {
-                    networkToast ();
+                    //networkToast ();
+                    // TODO: need a solution here
                 }
 
             }
@@ -248,6 +268,26 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     {
         mCursorAdapter.swapCursor (data);
         mCursor = data;
+
+        if (mCursorAdapter.getItemCount () == 0)
+        {
+            TextView emptyView = (TextView) findViewById (R.id.empty_view);
+
+            int message = R.string.no_data_available;
+            if (!isConnected)
+            {
+                message = R.string.no_network_available;
+            }
+
+            emptyView.setText (message);
+            emptyView.setVisibility (View.VISIBLE);
+        }
+        else
+        {
+            RecyclerView recyclerView = (RecyclerView) findViewById (R.id.recycler_view);
+            TextView emptyView = (TextView) findViewById (R.id.empty_view);
+            recyclerView.setVisibility (View.VISIBLE);
+            emptyView.setVisibility (View.GONE);        }
     }
 
     @Override
