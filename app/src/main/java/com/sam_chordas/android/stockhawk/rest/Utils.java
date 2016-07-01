@@ -64,12 +64,16 @@ public class Utils
 
     public static String truncateBidPrice (String bidPrice)
     {
+        if (bidPrice.equals ("null")) return "0";
+
         bidPrice = String.format ("%.2f", Float.parseFloat (bidPrice));
         return bidPrice;
     }
 
     public static String truncateChange (String change, boolean isPercentChange)
     {
+        if (change.equals ("null")) return "0";
+
         String weight    = change.substring (0, 1);
         String ampersand = "";
         if (isPercentChange)
@@ -95,6 +99,7 @@ public class Utils
         {
             String change = jsonObject.getString ("Change");
             builder.withValue (QuoteColumns.SYMBOL, jsonObject.getString ("symbol"));
+            builder.withValue (QuoteColumns.NAME, jsonObject.getString ("Name"));
             builder.withValue (QuoteColumns.BIDPRICE, truncateBidPrice (jsonObject.getString ("Bid")));
             builder.withValue (QuoteColumns.PERCENT_CHANGE, truncateChange (
                     jsonObject.getString ("ChangeinPercent"), true));

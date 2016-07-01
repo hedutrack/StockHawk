@@ -34,4 +34,6 @@ public class QuoteColumns
     @DataType(DataType.Type.INTEGER)
     @NotNull
     public static final String ISCURRENT      = "is_current";
+    @DataType(DataType.Type.TEXT)
+    public static final String NAME           = "name";
 }
