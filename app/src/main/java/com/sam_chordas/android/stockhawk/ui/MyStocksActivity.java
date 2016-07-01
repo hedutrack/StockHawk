@@ -257,7 +257,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         // This narrows the return to only the stocks that are most current.
         return new CursorLoader (this, QuoteProvider.Quotes.CONTENT_URI,
                 new String[]{QuoteColumns._ID, QuoteColumns.SYMBOL, QuoteColumns.BIDPRICE,
-                        QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP},
+                        QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP, QuoteColumns.NAME},
                 QuoteColumns.ISCURRENT + " = ?",
                 new String[]{"1"},
                 null);

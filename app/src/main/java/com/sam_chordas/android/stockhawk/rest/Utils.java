@@ -99,7 +99,11 @@ public class Utils
         {
             String change = jsonObject.getString ("Change");
             builder.withValue (QuoteColumns.SYMBOL, jsonObject.getString ("symbol"));
-            builder.withValue (QuoteColumns.NAME, jsonObject.getString ("Name"));
+
+            String s = jsonObject.getString ("Name");
+            s = s.equals ("null") ? "Unknown Symbol" : s;
+            builder.withValue (QuoteColumns.NAME, s);
+
             builder.withValue (QuoteColumns.BIDPRICE, truncateBidPrice (jsonObject.getString ("Bid")));
             builder.withValue (QuoteColumns.PERCENT_CHANGE, truncateChange (
                     jsonObject.getString ("ChangeinPercent"), true));

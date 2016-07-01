@@ -17,6 +17,8 @@ import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperAdapter;
 import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by sam_chordas on 10/6/15.
  * Credit to skyfishjy gist:
@@ -51,6 +53,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     public void onBindViewHolder (final ViewHolder viewHolder, final Cursor cursor)
     {
         viewHolder.symbol.setText (cursor.getString (cursor.getColumnIndex ("symbol")));
+        viewHolder.name.setText (cursor.getString (cursor.getColumnIndex ("name")));
         viewHolder.bidPrice.setText (cursor.getString (cursor.getColumnIndex ("bid_price")));
         int sdk = Build.VERSION.SDK_INT;
         if (cursor.getInt (cursor.getColumnIndex ("is_up")) == 1)
@@ -111,6 +114,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
         public final TextView symbol;
         public final TextView bidPrice;
         public final TextView change;
+        public final TextView name;
 
         public ViewHolder (View itemView)
         {
@@ -119,6 +123,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
             symbol.setTypeface (robotoLight);
             bidPrice = (TextView) itemView.findViewById (R.id.bid_price);
             change = (TextView) itemView.findViewById (R.id.change);
+            name = (TextView) itemView.findViewById (R.id.stock_name);
         }
 
         @Override
