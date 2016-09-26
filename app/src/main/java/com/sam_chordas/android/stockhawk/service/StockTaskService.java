@@ -45,7 +45,7 @@ public class StockTaskService extends GcmTaskService
         mContext = context;
     }
 
-    String fetchData (String url) throws IOException
+    private String fetchData (String url) throws IOException
     {
         Request request = new Request.Builder ()
                 .url (url)
